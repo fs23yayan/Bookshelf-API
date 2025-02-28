@@ -1,7 +1,6 @@
 {
   "name": "bookshelf-api",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "type": "module",
   "scripts": {
@@ -11,11 +10,18 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "dependencies": {
-    "@hapi/hapi": "^21.3.12",
-    "nanoid": "^5.1.2"
-  },
   "devDependencies": {
+    "@hapi/hapi": "^21.3.12",
+    "nanoid": "^5.1.2",
     "nodemon": "^3.1.9"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fs23yayan/Bookshelf-API.git"
+  },
+  "bugs": {
+    "url": "https://github.com/fs23yayan/Bookshelf-API/issues"
+  },
+  "homepage": "https://github.com/fs23yayan/Bookshelf-API#readme",
+  "description": ""
 }

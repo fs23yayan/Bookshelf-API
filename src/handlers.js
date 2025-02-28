@@ -1,7 +1,7 @@
-const { nanoid } = require('nanoid');
-const books = require('./books');
+import { nanoid } from 'nanoid';
+import books from './books.js';
 
-const addBookHandler = (request, h) => {
+export const addBookHandler = (request, h) => {
   const { name, year, author, summary, publisher, pageCount, readPage, reading } = request.payload;
   if (!name) {
     return h.response({ status: 'fail', message: 'Gagal menambahkan buku. Mohon isi nama buku' }).code(400);
@@ -18,15 +18,15 @@ const addBookHandler = (request, h) => {
   return h.response({ status: 'success', message: 'Buku berhasil ditambahkan', data: { bookId: id } }).code(201);
 };
 
-const getAllBooksHandler = () => ({ status: 'success', data: { books: books.map(({ id, name, publisher }) => ({ id, name, publisher })) } });
+export const getAllBooksHandler = () => ({ status: 'success', data: { books: books.map(({ id, name, publisher }) => ({ id, name, publisher })) } });
 
-const getBookByIdHandler = (request, h) => {
+export const getBookByIdHandler = (request, h) => {
   const book = books.find((b) => b.id === request.params.bookId);
   if (!book) return h.response({ status: 'fail', message: 'Buku tidak ditemukan' }).code(404);
   return { status: 'success', data: { book } };
 };
 
-const editBookByIdHandler = (request, h) => {
+export const editBookByIdHandler = (request, h) => {
   const { bookId } = request.params;
   const index = books.findIndex((b) => b.id === bookId);
   if (index === -1) return h.response({ status: 'fail', message: 'Gagal memperbarui buku. Id tidak ditemukan' }).code(404);
@@ -37,11 +37,9 @@ const editBookByIdHandler = (request, h) => {
   return h.response({ status: 'success', message: 'Buku berhasil diperbarui' }).code(200);
 };
 
-const deleteBookByIdHandler = (request, h) => {
+export const deleteBookByIdHandler = (request, h) => {
   const index = books.findIndex((b) => b.id === request.params.bookId);
   if (index === -1) return h.response({ status: 'fail', message: 'Buku gagal dihapus. Id tidak ditemukan' }).code(404);
   books.splice(index, 1);
   return h.response({ status: 'success', message: 'Buku berhasil dihapus' }).code(200);
 };
-
-module.exports = { addBookHandler, getAllBooksHandler, getBookByIdHandler, editBookByIdHandler, deleteBookByIdHandler };
