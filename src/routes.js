@@ -1,31 +1,33 @@
-import { addBookHandler, getAllBooksHandler, getBookByIdHandler, editBookByIdHandler, deleteBookByIdHandler } from './handlers.js';
+import {
+  addBookHandler, getAllBooksHandler, getBookByIdHandler, editBookByIdHandler, deleteBookByIdHandler,
+} from './handlers.js';
 
 const routes = [
   {
     method: 'POST',
     path: '/books',
-    handler: addBookHandler
+    handler: addBookHandler,
   },
   {
     method: 'GET',
     path: '/books',
-    handler: getAllBooksHandler
+    handler: getAllBooksHandler,
   },
   {
     method: 'GET',
     path: '/books/{bookId}',
-    handler: getBookByIdHandler
+    handler: getBookByIdHandler,
   },
   {
     method: 'PUT',
     path: '/books/{bookId}',
-    handler: editBookByIdHandler
+    handler: editBookByIdHandler,
   },
   {
     method: 'DELETE',
     path: '/books/{bookId}',
-    handler: deleteBookByIdHandler
-  }
+    handler: deleteBookByIdHandler,
+  },
 ];
 
 export default routes;

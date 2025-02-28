@@ -2,23 +2,42 @@ import { nanoid } from 'nanoid';
 import books from './books.js';
 
 export const addBookHandler = (request, h) => {
-  const { name, year, author, summary, publisher, pageCount, readPage, reading } = request.payload;
+  const {
+    name, year, author, summary, publisher, pageCount, readPage, reading,
+  } = request.payload;
   if (!name) {
-    return h.response({ status: 'fail', message: 'Gagal menambahkan buku. Mohon isi nama buku' }).code(400);
+    return h.response({
+      status: 'fail',
+      message: 'Gagal menambahkan buku. Mohon isi nama buku',
+    }).code(400);
   }
   if (readPage > pageCount) {
-    return h.response({ status: 'fail', message: 'Gagal menambahkan buku. readPage tidak boleh lebih besar dari pageCount' }).code(400);
+    return h.response({
+      status: 'fail',
+      message: 'Gagal menambahkan buku. readPage tidak boleh lebih besar dari pageCount',
+    }).code(400);
   }
   const id = nanoid(16);
   const insertedAt = new Date().toISOString();
   const updatedAt = insertedAt;
   const finished = pageCount === readPage;
-  const newBook = { id, name, year, author, summary, publisher, pageCount, readPage, finished, reading, insertedAt, updatedAt };
+  const newBook = {
+    id, name, year, author, summary, publisher, pageCount, readPage, finished, reading, insertedAt, updatedAt,
+  };
   books.push(newBook);
-  return h.response({ status: 'success', message: 'Buku berhasil ditambahkan', data: { bookId: id } }).code(201);
+  return h.response({
+    status: 'success',
+    message: 'Buku berhasil ditambahkan',
+    data: { bookId: id },
+  }).code(201);
 };
 
-export const getAllBooksHandler = () => ({ status: 'success', data: { books: books.map(({ id, name, publisher }) => ({ id, name, publisher })) } });
+export const getAllBooksHandler = () => ({
+  status: 'success',
+  data: {
+    books: books.map(({ id, name, publisher }) => ({ id, name, publisher })),
+  },
+});
 
 export const getBookByIdHandler = (request, h) => {
   const book = books.find((b) => b.id === request.params.bookId);
@@ -30,10 +49,14 @@ export const editBookByIdHandler = (request, h) => {
   const { bookId } = request.params;
   const index = books.findIndex((b) => b.id === bookId);
   if (index === -1) return h.response({ status: 'fail', message: 'Gagal memperbarui buku. Id tidak ditemukan' }).code(404);
-  const { name, year, author, summary, publisher, pageCount, readPage, reading } = request.payload;
+  const {
+    name, year, author, summary, publisher, pageCount, readPage, reading,
+  } = request.payload;
   if (!name) return h.response({ status: 'fail', message: 'Gagal memperbarui buku. Mohon isi nama buku' }).code(400);
   if (readPage > pageCount) return h.response({ status: 'fail', message: 'Gagal memperbarui buku. readPage tidak boleh lebih besar dari pageCount' }).code(400);
-  books[index] = { ...books[index], name, year, author, summary, publisher, pageCount, readPage, reading, finished: pageCount === readPage, updatedAt: new Date().toISOString() };
+  books[index] = {
+    ...books[index], name, year, author, summary, publisher, pageCount, readPage, reading, finished: pageCount === readPage, updatedAt: new Date().toISOString(),
+  };
   return h.response({ status: 'success', message: 'Buku berhasil diperbarui' }).code(200);
 };
 
